@@ -143,37 +143,19 @@
         }, args),
         interval,
         targetDate,
-        targetTmpDate,
         now,
-        nowUtc,
         secondsPassed,
         days,
-        hours,
-        minutes,
-        seconds,
         cd = document.querySelectorAll(elt);
 
-    targetTmpDate = new Date(
+    targetDate = new Date(Date.UTC(
         parameters.year,
         parameters.month - 1,
         parameters.day,
         parameters.hours,
         parameters.minutes,
         parameters.seconds
-    );
-
-    if (parameters.enableUtc) {
-        targetDate = new Date(
-            targetTmpDate.getUTCFullYear(),
-            targetTmpDate.getUTCMonth(),
-            targetTmpDate.getUTCDate(),
-            targetTmpDate.getUTCHours(),
-            targetTmpDate.getUTCMinutes(),
-            targetTmpDate.getUTCSeconds()
-        );
-    } else {
-        targetDate = targetTmpDate;
-    }
+    ));
 
     Array.prototype.forEach.call(cd, function (countdown) {
         var fullCountDown = createElements(parameters, countdown),
@@ -183,16 +165,9 @@
             var dayWord;
 
             now = new Date();
-            if (parameters.enableUtc) {
-                nowUtc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
-                    now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-                secondsPassed = (nowUtc.getTime() - targetDate) / 1000;
+            secondsPassed = (now.getTime() - targetDate.getTime()) / 1000;
 
-            } else {
-                secondsPassed = (now.getTime() - targetDate) / 1000;
-            }
-
-            days = parseInt(secondsPassed / 86400, 10);
+            days = Math.floor(secondsPassed / 86400);
 
             if (parameters.plural) {
                 dayWord = days !== 1
@@ -215,6 +190,7 @@
         interval = window.setInterval(refresh, parameters.refresh);
     });
 };
+
 
 
     exports.simplyCountdown = simplyCountdown;
