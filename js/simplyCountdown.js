@@ -161,7 +161,7 @@
         var fullCountDown = createElements(parameters, countdown),
             refresh;
 
-        refresh = function () {
+    refresh = function () {
     var dayWord,
         hourWord,
         minuteWord,
@@ -177,14 +177,14 @@
     }
 
     if (secondsLeft > 0) {
-        days = parseInt(secondsLeft / 86400, 10);  // Days since target date
+        days = parseInt(secondsLeft / 86400, 10);  // Calculate days
         secondsLeft = secondsLeft % 86400;
 
-        hours = parseInt(secondsLeft / 3600, 10);
+        hours = parseInt(secondsLeft / 3600, 10);  // Calculate hours
         secondsLeft = secondsLeft % 3600;
 
-        minutes = parseInt(secondsLeft / 60, 10);
-        seconds = parseInt(secondsLeft % 60, 10);
+        minutes = parseInt(secondsLeft / 60, 10);  // Calculate minutes
+        seconds = parseInt(secondsLeft % 60, 10);  // Calculate seconds
     } else {
         days = 0;
         hours = 0;
@@ -193,22 +193,10 @@
     }
 
     if (parameters.plural) {
-        dayWord = days > 1
-            ? parameters.words.days + parameters.words.pluralLetter
-            : parameters.words.days;
-
-        hourWord = hours > 1
-            ? parameters.words.hours + parameters.words.pluralLetter
-            : parameters.words.hours;
-
-        minuteWord = minutes > 1
-            ? parameters.words.minutes + parameters.words.pluralLetter
-            : parameters.words.minutes;
-
-        secondWord = seconds > 1
-            ? parameters.words.seconds + parameters.words.pluralLetter
-            : parameters.words.seconds;
-
+        dayWord = days > 1 ? parameters.words.days + parameters.words.pluralLetter : parameters.words.days;
+        hourWord = hours > 1 ? parameters.words.hours + parameters.words.pluralLetter : parameters.words.hours;
+        minuteWord = minutes > 1 ? parameters.words.minutes + parameters.words.pluralLetter : parameters.words.minutes;
+        secondWord = seconds > 1 ? parameters.words.seconds + parameters.words.pluralLetter : parameters.words.seconds;
     } else {
         dayWord = parameters.words.days;
         hourWord = parameters.words.hours;
@@ -216,14 +204,13 @@
         secondWord = parameters.words.seconds;
     }
 
-    /* display an inline countdown into a span tag */
+    /* Display the countdown */
     if (parameters.inline) {
         countdown.innerHTML =
             days + ' ' + dayWord + ', ' +
             hours + ' ' + hourWord + ', ' +
             minutes + ' ' + minuteWord + ', ' +
             seconds + ' ' + secondWord + '.';
-
     } else {
         fullCountDown.days.amount.textContent = (parameters.zeroPad && days.toString().length < 2 ? '0' : '') + days;
         fullCountDown.days.word.textContent = dayWord;
