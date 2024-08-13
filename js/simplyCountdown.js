@@ -171,20 +171,20 @@
     if (parameters.enableUtc) {
         nowUtc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
             now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
-        secondsLeft = (nowUtc.getTime() - targetDate.getTime()) / 1000;  // Calculate seconds since the target date
+        secondsLeft = (nowUtc.getTime() - targetDate.getTime()) / 1000;
     } else {
-        secondsLeft = (now.getTime() - targetDate.getTime()) / 1000;  // Calculate seconds since the target date
+        secondsLeft = (now.getTime() - targetDate.getTime()) / 1000;
     }
 
     if (secondsLeft > 0) {
-        days = parseInt(secondsLeft / 86400, 10);  // Calculate days
+        days = parseInt(secondsLeft / 86400, 10);
         secondsLeft = secondsLeft % 86400;
 
-        hours = parseInt(secondsLeft / 3600, 10);  // Calculate hours
+        hours = parseInt(secondsLeft / 3600, 10);
         secondsLeft = secondsLeft % 3600;
 
-        minutes = parseInt(secondsLeft / 60, 10);  // Calculate minutes
-        seconds = parseInt(secondsLeft % 60, 10);  // Calculate seconds
+        minutes = parseInt(secondsLeft / 60, 10);
+        seconds = parseInt(secondsLeft % 60, 10);
     } else {
         days = 0;
         hours = 0;
@@ -204,7 +204,6 @@
         secondWord = parameters.words.seconds;
     }
 
-    /* Display the countdown */
     if (parameters.inline) {
         countdown.innerHTML =
             days + ' ' + dayWord + ', ' +
