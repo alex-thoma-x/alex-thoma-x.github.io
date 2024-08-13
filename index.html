@@ -393,18 +393,19 @@ Just wanted you to know how much you mean to me. 4 YEARS BABE!!</p>
 <script>
     var startDate = new Date(2020, 7, 14); // August 14, 2020
 
-    // default example
     simplyCountdown('.simply-countdown-one', {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate()
+        year: startDate.getFullYear(),
+        month: startDate.getMonth() + 1,
+        day: startDate.getDate(),
+        enableUtc: false,
+        inline: true, // Display inline text
+        zeroPad: true // Zero-pad numbers for consistency
     });
 
-    //jQuery example
     $('#simply-countdown-losange').simplyCountdown({
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate(),
+        year: startDate.getFullYear(),
+        month: startDate.getMonth() + 1,
+        day: startDate.getDate(),
         enableUtc: false
     });
 </script>
