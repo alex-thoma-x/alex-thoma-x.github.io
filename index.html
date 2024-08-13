@@ -394,26 +394,31 @@ Just wanted you to know how much you mean to me. 4 YEARS BABE!!</p>
 	<!-- Main -->
 	<script src="js/main.js"></script>
 
-	<script>
-    // Set the target date to August 14, 2020
-    var targetDate = new Date(2020, 7, 14); // Month is 0-based (August is 7)
+<script>
+    var startDate = new Date(2020, 7, 14); // August 14, 2020
 
-    // Initialize simplyCountdown with the updated target date
     simplyCountdown('.simply-countdown-one', {
-        year: targetDate.getFullYear(),
-        month: targetDate.getMonth() + 1, // Months are 1-based in the countdown
-        day: targetDate.getDate(),
-        enableUtc: false // Ensure the countdown uses local time
+        year: startDate.getFullYear(),
+        month: startDate.getMonth() + 1,
+        day: startDate.getDate(),
+        enableUtc: false,
+        onEnd: function () {
+            // Optional: Define what happens when the countdown ends
+        },
+        refresh: 1000, // Refresh every second
+        inline: true, // Display inline text
+        zeroPad: true // Zero-pad numbers for consistency
     });
 
-    // jQuery example (if you use jQuery)
+    // jQuery example (if needed)
     $('#simply-countdown-losange').simplyCountdown({
-        year: targetDate.getFullYear(),
-        month: targetDate.getMonth() + 1,
-        day: targetDate.getDate(),
-        enableUtc: false // Ensure the countdown uses local time
+        year: startDate.getFullYear(),
+        month: startDate.getMonth() + 1,
+        day: startDate.getDate(),
+        enableUtc: false
     });
 </script>
+
 
 
 
