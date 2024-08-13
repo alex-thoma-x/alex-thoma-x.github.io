@@ -80,10 +80,6 @@
 					<ul>
 						<li class="active"><a href="index.html">Home</a></li>
 						
-						<!–– <li class="has-dropdown">
-							<a href="gallery.html">Gallery</a>
-							</ul>
-						</li> -->
 					</ul>
 				</div>
 			</div>
@@ -397,24 +393,18 @@ Just wanted you to know how much you mean to me. 4 YEARS BABE!!</p>
 <script>
     var startDate = new Date(2020, 7, 14); // August 14, 2020
 
+    // default example
     simplyCountdown('.simply-countdown-one', {
-        year: startDate.getFullYear(),
-        month: startDate.getMonth() + 1,
-        day: startDate.getDate(),
-        enableUtc: false,
-        onEnd: function () {
-            // Optional: Define what happens when the countdown ends
-        },
-        refresh: 1000, // Refresh every second
-        inline: true, // Display inline text
-        zeroPad: true // Zero-pad numbers for consistency
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d.getDate()
     });
 
-    // jQuery example (if needed)
+    //jQuery example
     $('#simply-countdown-losange').simplyCountdown({
-        year: startDate.getFullYear(),
-        month: startDate.getMonth() + 1,
-        day: startDate.getDate(),
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d.getDate(),
         enableUtc: false
     });
 </script>
