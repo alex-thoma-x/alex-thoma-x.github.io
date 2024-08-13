@@ -395,23 +395,26 @@ Just wanted you to know how much you mean to me. 4 YEARS BABE!!</p>
 	<script src="js/main.js"></script>
 
 	<script>
-    var d = new Date(new Date().getTime() + 200 * 120 * 120 * 2000);
+    // Set the target date to August 14, 2020
+    var targetDate = new Date(Date.UTC(2020, 7, 14));  // Month is zero-indexed, so 7 means August
 
-    // default example
+    // Calculate the number of days since the target date
     simplyCountdown('.simply-countdown-one', {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate()
-    });
-
-    //jQuery example
-    $('#simply-countdown-losange').simplyCountdown({
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate(),
-        enableUtc: false
+        year: targetDate.getUTCFullYear(),
+        month: targetDate.getUTCMonth() + 1,  // Adding 1 because getUTCMonth() is zero-indexed
+        day: targetDate.getUTCDate(),
+        enableUtc: true,  // Use UTC to avoid timezone issues
+        onEnd: function() {
+            // Optional: add any action you want to happen when the countdown ends
+        },
+        refresh: 1000,
+        sectionClass: 'simply-section',
+        amountClass: 'simply-amount',
+        wordClass: 'simply-word',
+        zeroPad: false
     });
 </script>
+
 
 	</body>
 </html>
