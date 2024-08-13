@@ -114,157 +114,108 @@
      * @param args (parameters)
      */
     simplyCountdown = function (elt, args) {
-        var parameters = extend({
-                year: 2025,
-                month: 8,
-                day: 14,
-                hours: 0,
-                minutes: 0,
-                seconds: 0,
-                words: {
-                    days: 'day',
-                    hours: 'hour',
-                    minutes: 'minute',
-                    seconds: 'second',
-                    pluralLetter: 's'
-                },
-                plural: true,
-                inline: false,
-                enableUtc: true,
-                onEnd: function () {
-                    return;
-                },
-                refresh: 1000,
-                inlineClass: 'simply-countdown-inline',
-                sectionClass: 'simply-section',
-                amountClass: 'simply-amount',
-                wordClass: 'simply-word',
-                zeroPad: false
-            }, args),
-            interval,
-            targetDate,
-            targetTmpDate,
-            now,
-            nowUtc,
-            secondsLeft,
-            days,
-            hours,
-            minutes,
-            seconds,
-            cd = document.querySelectorAll(elt);
+    var parameters = extend({
+            year: 2020,  // Change this to the year 2020
+            month: 8,    // Change this to August
+            day: 14,     // Change this to 14th
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            words: {
+                days: 'day',
+                hours: 'hour',
+                minutes: 'minute',
+                seconds: 'second',
+                pluralLetter: 's'
+            },
+            plural: true,
+            inline: false,
+            enableUtc: true,
+            onEnd: function () {
+                return;
+            },
+            refresh: 1000,
+            inlineClass: 'simply-countdown-inline',
+            sectionClass: 'simply-section',
+            amountClass: 'simply-amount',
+            wordClass: 'simply-word',
+            zeroPad: false
+        }, args),
+        interval,
+        targetDate,
+        targetTmpDate,
+        now,
+        nowUtc,
+        secondsPassed,
+        days,
+        hours,
+        minutes,
+        seconds,
+        cd = document.querySelectorAll(elt);
 
-        targetTmpDate = new Date(
-            parameters.year,
-            parameters.month - 1,
-            parameters.day,
-            parameters.hours,
-            parameters.minutes,
-            parameters.seconds
+    targetTmpDate = new Date(
+        parameters.year,
+        parameters.month - 1,
+        parameters.day,
+        parameters.hours,
+        parameters.minutes,
+        parameters.seconds
+    );
+
+    if (parameters.enableUtc) {
+        targetDate = new Date(
+            targetTmpDate.getUTCFullYear(),
+            targetTmpDate.getUTCMonth(),
+            targetTmpDate.getUTCDate(),
+            targetTmpDate.getUTCHours(),
+            targetTmpDate.getUTCMinutes(),
+            targetTmpDate.getUTCSeconds()
         );
+    } else {
+        targetDate = targetTmpDate;
+    }
 
-        if (parameters.enableUtc) {
-            targetDate = new Date(
-                targetTmpDate.getUTCFullYear(),
-                targetTmpDate.getUTCMonth(),
-                targetTmpDate.getUTCDate(),
-                targetTmpDate.getUTCHours(),
-                targetTmpDate.getUTCMinutes(),
-                targetTmpDate.getUTCSeconds()
-            );
-        } else {
-            targetDate = targetTmpDate;
-        }
+    Array.prototype.forEach.call(cd, function (countdown) {
+        var fullCountDown = createElements(parameters, countdown),
+            refresh;
 
-        Array.prototype.forEach.call(cd, function (countdown) {
-            var fullCountDown = createElements(parameters, countdown),
-                refresh;
+        refresh = function () {
+            var dayWord;
 
-            refresh = function () {
-                var dayWord,
-                    hourWord,
-                    minuteWord,
-                    secondWord;
+            now = new Date();
+            if (parameters.enableUtc) {
+                nowUtc = new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(),
+                    now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+                secondsPassed = (nowUtc.getTime() - targetDate) / 1000;
 
-                now = new Date();
-                if (parameters.enableUtc) {
-                    nowUtc = new Date(now.getFullYear(), now.getMonth(), now.getDate(),
-                        now.getHours(), now.getMinutes(), now.getSeconds());
-                    secondsLeft = (targetDate - nowUtc.getTime()) / 1000;
+            } else {
+                secondsPassed = (now.getTime() - targetDate) / 1000;
+            }
 
-                } else {
-                    secondsLeft = (targetDate - now.getTime()) / 1000;
-                }
+            days = parseInt(secondsPassed / 86400, 10);
 
-                if (secondsLeft > 0) {
-                    days = parseInt(secondsLeft / 86400, 10);
-                    secondsLeft = secondsLeft % 86400;
+            if (parameters.plural) {
+                dayWord = days !== 1
+                    ? parameters.words.days + parameters.words.pluralLetter
+                    : parameters.words.days;
+            } else {
+                dayWord = parameters.words.days;
+            }
 
-                    hours = parseInt(secondsLeft / 3600, 10);
-                    secondsLeft = secondsLeft % 3600;
+            if (parameters.inline) {
+                countdown.innerHTML = days + ' ' + dayWord + ' since August 14, 2020.';
+            } else {
+                fullCountDown.days.amount.textContent = (parameters.zeroPad && days.toString().length < 2 ? '0' : '') + days;
+                fullCountDown.days.word.textContent = dayWord;
+            }
+        };
 
-                    minutes = parseInt(secondsLeft / 60, 10);
-                    seconds = parseInt(secondsLeft % 60, 10);
-                } else {
-                    days = 0;
-                    hours = 0;
-                    minutes = 0;
-                    seconds = 0;
-                    window.clearInterval(interval);
-                    parameters.onEnd();
-                }
+        // Refresh immediately to prevent a Flash of Unstyled Content
+        refresh();
+        interval = window.setInterval(refresh, parameters.refresh);
+    });
+};
 
-                if (parameters.plural) {
-                    dayWord = days > 1
-                        ? parameters.words.days + parameters.words.pluralLetter
-                        : parameters.words.days;
-
-                    hourWord = hours > 1
-                        ? parameters.words.hours + parameters.words.pluralLetter
-                        : parameters.words.hours;
-
-                    minuteWord = minutes > 1
-                        ? parameters.words.minutes + parameters.words.pluralLetter
-                        : parameters.words.minutes;
-
-                    secondWord = seconds > 1
-                        ? parameters.words.seconds + parameters.words.pluralLetter
-                        : parameters.words.seconds;
-
-                } else {
-                    dayWord = parameters.words.days;
-                    hourWord = parameters.words.hours;
-                    minuteWord = parameters.words.minutes;
-                    secondWord = parameters.words.seconds;
-                }
-
-                /* display an inline countdown into a span tag */
-                if (parameters.inline) {
-                    countdown.innerHTML =
-                        days + ' ' + dayWord + ', ' +
-                        hours + ' ' + hourWord + ', ' +
-                        minutes + ' ' + minuteWord + ', ' +
-                        seconds + ' ' + secondWord + '.';
-
-                } else {
-                    fullCountDown.days.amount.textContent = (parameters.zeroPad && days.toString().length < 2 ? '0' : '') + days;
-                    fullCountDown.days.word.textContent = dayWord;
-
-                    fullCountDown.hours.amount.textContent = (parameters.zeroPad && hours.toString().length < 2 ? '0' : '') + hours;
-                    fullCountDown.hours.word.textContent = hourWord;
-
-                    fullCountDown.minutes.amount.textContent = (parameters.zeroPad && minutes.toString().length < 2 ? '0' : '') + minutes;
-                    fullCountDown.minutes.word.textContent = minuteWord;
-
-                    fullCountDown.seconds.amount.textContent = (parameters.zeroPad && seconds.toString().length < 2 ? '0' : '') + seconds;
-                    fullCountDown.seconds.word.textContent = secondWord;
-                }
-            };
-
-            // Refresh immediately to prevent a Flash of Unstyled Content
-            refresh();
-            interval = window.setInterval(refresh, parameters.refresh);
-        });
-    };
 
     exports.simplyCountdown = simplyCountdown;
 }(window));
