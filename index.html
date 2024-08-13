@@ -63,7 +63,27 @@
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+	<style>
+        @keyframes pulsate {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
 
+        .pulsating-text {
+            display: inline-block; /* Allows the transform to work correctly */
+            animation: pulsate 2s infinite; /* Apply the pulsate animation */
+        }
+    </style>
 	</head>
 	<body>
 		
@@ -95,7 +115,7 @@
 					<div class="display-t">
 						<div class="display-tc animate-box" data-animate-effect="fadeIn">
 							<h1>Alex &amp; Cherry</h1>
-							<h2>It's freaking 4 years</h2>
+							<h2 class="pulsating-text" >It's freaking 4 years</h2>
 							<p><a href="#" class="btn btn-default btn-sm">14-08-2024</a></p>
 						</div>
 					</div>
